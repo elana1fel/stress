@@ -2,7 +2,7 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import logging
 import torch
 import torch.nn as nn
-from dataset import DepressDataset
+from dataset import StressDataset
 from sklearn.metrics import precision_recall_fscore_support
 import os
 import sys
@@ -52,7 +52,7 @@ def set_seed():
     torch.cuda.manual_seed_all(SEED)
 
 def prepare_data(dev_path):
-    dev_data = DepressDataset(dev_path, mode='test')
+    dev_data = StressDataset(dev_path, mode='test')
     dev_dataloader = DataLoader(dev_data, batch_size=1, shuffle=False)
     return dev_dataloader
 
@@ -70,15 +70,13 @@ def test(dev_path):
     tokenizer = AutoTokenizer.from_pretrained(MODEL)
 
     category = {
-        'moderate': 1,
-        'severe': 2,
-        'not depression': 0
+        'stressed': 1,
+        'not stressed': 0
     }
 
     inverse_category = {
-        1: 'moderate',
-        2: 'severe',
-        0: 'not depression'
+        1: 'stressed',
+        0: 'not stressed'
     }
 
     model.load_state_dict(torch.load(f"../model/{MODEL_NAME}.pt"))
@@ -104,7 +102,7 @@ def test(dev_path):
 
     answer = pd.DataFrame(y_pred, columns=category.keys())
     answer['PID'] = df_val['PID'].values
-    answer = answer[['PID', 'moderate', 'severe', 'not depression']]
+    answer = answer[['PID', 'stressed', 'not stressed']]
     answer.to_csv('../prediction/{}answer.csv'.format(MODEL_NAME), index=False)
 
 
