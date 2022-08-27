@@ -4,12 +4,12 @@ from transformers import AutoTokenizer
 import torch
 from torch.utils.data import Dataset
 
-class DepressDataset(Dataset):
+class StressDataset(Dataset):
     def __init__(self, file_path, mode):
         super().__init__()
         self.mode = mode
         df = pd.read_csv(file_path, sep='\t')
-        dic = {'not depression': 0, 'moderate': 1, 'severe': 2}
+        dic = {'not stress': 0, 'stress': 1}
         if mode != 'test':
             df['label'] = df['label'].map(dic)
             self.labels = df['label'].tolist()
