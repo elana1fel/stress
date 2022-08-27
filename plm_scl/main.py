@@ -15,7 +15,6 @@ from pytorch_metric_learning import losses
 import sys
 import os
 
-SEED = 42
 MODEL = {
     "roberta":{
         "pretrain": "cardiffnlp/twitter-roberta-base-sentiment",
@@ -31,14 +30,14 @@ MODEL = {
     }
 }
 
-# EPOCHS = 30
-# LR = 4e-5
-# BATCH_SIZE = 8
-# SEED = 17
-# WARM_UP = 5
-# HIDDEN = 512
-# DROPOUT = 0.1
-# LAMBDA = 0.7
+EPOCHS = 30
+LR = 4e-5
+BATCH_SIZE = 8
+SEED = 42
+WARM_UP = 5
+HIDDEN = 512
+DROPOUT = 0.1
+LAMBDA = 0.7
 
 GPU_NUM = '3'
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
