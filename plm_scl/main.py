@@ -1,6 +1,6 @@
 from transformers import AutoTokenizer, AutoModelForSequenceClassification,\
                          AdamW, get_scheduler  
-from dataset import DepressDataset
+from dataset import StressDataset
 from model import Model
 from sklearn.metrics import precision_recall_fscore_support
 import pandas as pd
@@ -103,8 +103,8 @@ def set_seed():
     torch.cuda.manual_seed_all(SEED)
 
 def prepare_data(train_path, dev_path):
-    train_data = DepressDataset(train_path, mode='train')
-    dev_data = DepressDataset(dev_path, mode='val')
+    train_data = StressDataset(train_path, mode='train')
+    dev_data = StressDataset(dev_path, mode='val')
     train_dataloader = DataLoader(train_data, batch_size=BATCH_SIZE, sampler=ImbalancedDatasetSampler(train_data))
     dev_dataloader = DataLoader(dev_data, batch_size=1, shuffle=False)
     return train_dataloader, dev_dataloader
