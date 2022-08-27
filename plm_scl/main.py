@@ -179,7 +179,7 @@ def train(model_type, train_path, dev_path):
 
 
 if __name__ == '__main__':
-    model_type = sys.argv[1]
+    model_type = 'roberta'
     if model_type not in MODEL.keys():
         raise ValueError(f"{model_type} is not a valid model type [roberta, electra, deberta]")
     train(model_type, train_path='../data/train_np.tsv', dev_path='../data/valid_np.tsv')
