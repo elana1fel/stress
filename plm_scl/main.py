@@ -12,7 +12,6 @@ from torch.optim import Adam
 from torch.utils.data import DataLoader
 from torchsampler import ImbalancedDatasetSampler
 from pytorch_metric_learning import losses
-import wandb
 import sys
 import os
 
