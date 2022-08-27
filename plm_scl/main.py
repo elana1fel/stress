@@ -40,62 +40,12 @@ MODEL = {
 # DROPOUT = 0.1
 # LAMBDA = 0.7
 
-# EPOCHS = 30
-# LR = wandb.config['lr']
-# BATCH_SIZE = wandb.config['batch_size']
-# SEED = wandb.config['seed']
-# WARM_UP = wandb.config['warm_up']
-# HIDDEN = wandb.config['hidden']
-# DROPOUT = wandb.config['dropout']
-# LAMBDA = wandb.config['lambda']
-
 GPU_NUM = '3'
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 os.environ["CUDA_VISIBLE_DEVICES"] = GPU_NUM
 transformers_logger = logging.getLogger("transformers")
 transformers_logger.setLevel(logging.ERROR)
-
-def set_wandb(model_type):
-    wandb.init(project="depression-challenge", entity="nycu_adsl_depression_ycw", tags=[model_type])
-    # wandb.init(project="depression-challenge", entity="nycu_adsl_depression_ycw")
-
-    global EPOCHS, LR, BATCH_SIZE, SEED, WARM_UP, HIDDEN, DROPOUT, LAMBDA, LAMBDA2
-    # # deberta
-    # EPOCHS = 20
-    # LR = 4e-5
-    # BATCH_SIZE = 8
-    # SEED = 17
-    # WARM_UP = 5
-    # HIDDEN = 1024
-    # DROPOUT = 0.2
-    # LAMBDA = 0.3
-    # LAMBDA2 = 0.3
-
-    # electra and roberta
-    EPOCHS = 20
-    LR = 4e-5
-    BATCH_SIZE = 8
-    SEED = wandb.config['seed']
-    WARM_UP = 5
-    HIDDEN = 512
-    DROPOUT = 0.1
-    LAMBDA = 0.7
-    LAMBDA2 = 0.3
-
-    wandb.config.update({
-        "model": MODEL[model_type]["pretrain"],
-        "model_name": MODEL[model_type]["name"],
-        "epochs": EPOCHS,
-        "lr": LR,
-        "batch_size": BATCH_SIZE,
-        "seed": SEED,
-        "warm_up": WARM_UP,
-        "hidden": HIDDEN,
-        "dropout": DROPOUT,
-        "lambda": LAMBDA,
-        "lambda2": LAMBDA2
-    })
 
 def set_seed():
     torch.manual_seed(SEED)
@@ -110,7 +60,6 @@ def prepare_data(train_path, dev_path):
     return train_dataloader, dev_dataloader
 
 def train(model_type, train_path, dev_path):
-    set_wandb(model_type)
     set_seed()
     config = {
         'dropout': DROPOUT,
