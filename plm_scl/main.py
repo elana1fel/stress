@@ -15,6 +15,7 @@ from pytorch_metric_learning import losses
 import sys
 import os
 
+SEED = 42
 MODEL = {
     "roberta":{
         "pretrain": "cardiffnlp/twitter-roberta-base-sentiment",
