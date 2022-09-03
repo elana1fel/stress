@@ -130,4 +130,4 @@ if __name__ == '__main__':
     model_type = 'roberta'
     if model_type not in MODEL.keys():
         raise ValueError(f"{model_type} is not a valid model type [roberta, electra, deberta]")
-    train(model_type, train_path='../data/train_np.tsv', dev_path='../data/valid_np.tsv')
+    train(model_type, train_path='/content/Dreaddit_implementation/dreaddit-train.csv', dev_path='/content/Dreaddit_implementation/dreaddit-test.csv')
