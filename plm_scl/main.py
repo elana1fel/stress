@@ -79,8 +79,11 @@ def train(model_type, train_path, dev_path):
     print("Parameters to train:", sum(p.numel() for p in model.parameters() if p.requires_grad))
 
     best_f1 = 0
+    i = 0
     pbar = tqdm(range(EPOCHS), desc='Epoch: ')
     for epoch in pbar:
+        i += 1
+        print(f"running on {i} / {len(train_dataloader)}")
         model.train()
         total_loss = 0
         for data in train_dataloader:
