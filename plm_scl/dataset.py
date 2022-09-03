@@ -4,6 +4,18 @@ from transformers import AutoTokenizer
 import torch
 from torch.utils.data import Dataset
 
+import nltk
+nltk.download('vader_lexicon')
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+def get_vader_feature(df):
+    sid = SentimentIntensityAnalyzer()
+    df['neg'] = df['text'].apply(lambda review: sid.polarity_scores(review)['neg'])
+    df['pos'] = df['text'].apply(lambda review: sid.polarity_scores(review)['pos'])
+    df['neu'] = df['text'].apply(lambda review: sid.polarity_scores(review)['neu'])
+    df['compound'] = df['text'].apply(lambda review: sid.polarity_scores(review)['compound'])
+
+    
 class StressDataset(Dataset):
     def __init__(self, file_path, mode):
         super().__init__()
@@ -11,14 +23,14 @@ class StressDataset(Dataset):
         df = pd.read_csv(file_path, sep='\t')
         dic = {'not stress': 0, 'stress': 1}
         if mode != 'test':
-            df['label'] = df['label'].map(dic)
             self.labels = df['label'].tolist()
         self.data = {}
+        get_vader_feature(df)
         for idx, row in df.iterrows():
             if mode != 'test':
-                self.data[idx] = (row['Text_data'], row['neg'], row['neu'], row['pos'], row['compound'], row['label'])
+                self.data[idx] = (row['text'], row['neg'], row['neu'], row['pos'], row['compound'], row['label'])
             else:
-                self.data[idx] = (row['Text_data'], row['neg'], row['neu'], row['pos'], row['compound'])
+                self.data[idx] = (row['text'], row['neg'], row['neu'], row['pos'], row['compound'])
         
     def __len__(self):
         return len(self.data)
