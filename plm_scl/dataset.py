@@ -20,8 +20,7 @@ class StressDataset(Dataset):
     def __init__(self, file_path, mode):
         super().__init__()
         self.mode = mode
-        df = pd.read_csv(file_path, sep='\t')
-        dic = {'not stress': 0, 'stress': 1}
+        df = pd.read_csv(file_path)
         if mode != 'test':
             self.labels = df['label'].tolist()
         self.data = {}
