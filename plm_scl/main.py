@@ -117,7 +117,7 @@ def train(model_type, train_path, dev_path):
         f1 = round(f1, 4)
         avg_loss = round(total_loss/len(train_dataloader), 4)
         pbar.set_description(f"Epoch: {epoch}, F1 score: {f1}, Loss: {avg_loss}", refresh=True)
-        print(f"epoch: {epoch}, f1: {f1}, train loss: {avg_loss}, precision: {precision}, recall: {recall}, support: {support}"}
+        print(f"epoch: {epoch}, f1: {f1}, train loss: {avg_loss}, precision: {precision}, recall: {recall}, support: {support}")
         if f1 > best_f1:
             print(f"best_f1_macro: {f1}")
             print("best_precision_macro: {precision}")
