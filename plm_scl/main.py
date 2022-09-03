@@ -67,7 +67,7 @@ def train(model_type, train_path, dev_path):
     }
     train_dataloader, dev_dataloader = prepare_data(train_path, dev_path)
     device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
-
+    print(f"running on: {device}")
     model = Model(MODEL[model_type]["pretrain"], config).to(device)
 
     tokenizer = AutoTokenizer.from_pretrained(MODEL[model_type]["pretrain"])
